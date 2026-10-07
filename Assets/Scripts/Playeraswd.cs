@@ -32,4 +32,11 @@ public class Playeraswd : MonoBehaviour
 
         rb.AddForce(movment * speed);
     }
+    void OnTriggerEnter(Collider other)
+    { 
+      if (other.gameObject.CompareTag("PickUp"))
+      {
+         other.gameObject.SetActive(false);
+      } 
+    }
 }
