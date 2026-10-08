@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Playeraswd : MonoBehaviour
 {
     public float speed = 0;
+    public TextMeshProUGUI countText;
+    public GameObject winTextObject;
+
 
     private Rigidbody rb;
+    private int count;
     private float movementX;
     private float movementY;
 
@@ -16,6 +21,11 @@ public class Playeraswd : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        count = 0;
+
+        SetCountText();
+        winTextObject.SetActive(false);
+
     }
     void OnMove(InputValue movementValue)
     {
@@ -26,6 +36,14 @@ public class Playeraswd : MonoBehaviour
 
     }
 
+    void SetCountText()
+    {
+        countText.text = "Count: " + count.ToString();
+        if (count >= 16)
+        {
+            winTextObject.SetActive (true);
+        }
+    }
     private void FixedUpdate()
     {
         Vector3 movment = new Vector3(movementX, 0.0f, movementY);
@@ -37,6 +55,10 @@ public class Playeraswd : MonoBehaviour
       if (other.gameObject.CompareTag("PickUp"))
       {
          other.gameObject.SetActive(false);
-      } 
+         count = count + 1;
+
+            SetCountText();
+
+        }
     }
 }
