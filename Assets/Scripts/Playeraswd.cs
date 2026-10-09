@@ -16,8 +16,6 @@ public class Playeraswd : MonoBehaviour
     private int count;
     private float movementX;
     private float movementY;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -42,6 +40,7 @@ public class Playeraswd : MonoBehaviour
         if (count >= 16)
         {
             winTextObject.SetActive (true);
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         }
     }
     private void FixedUpdate()
@@ -49,6 +48,16 @@ public class Playeraswd : MonoBehaviour
         Vector3 movment = new Vector3(movementX, 0.0f, movementY);
 
         rb.AddForce(movment * speed);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+            winTextObject.gameObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        }
     }
     void OnTriggerEnter(Collider other)
     { 
@@ -61,4 +70,5 @@ public class Playeraswd : MonoBehaviour
 
         }
     }
+
 }
